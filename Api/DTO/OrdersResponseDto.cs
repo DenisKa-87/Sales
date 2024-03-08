@@ -2,14 +2,17 @@
 
 namespace Api.DTO
 {
-    public class OrdersResponsetDto
+    /// <summary>
+    /// An entity to pass data to the client;
+    /// </summary>
+    public class OrdersResponseDto
     {
         public string Promo { get; set; }
         public List<long> Isbns { get; set; }
 
-        public static OrdersResponsetDto Create(Order order)
+        public static OrdersResponseDto Create(Order order)
         {
-            var orderDto = new OrdersResponsetDto()
+            var orderDto = new OrdersResponseDto()
             {
                 Promo = order.User.UserName,
                 Isbns = new List<long>()

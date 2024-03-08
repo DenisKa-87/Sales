@@ -21,7 +21,7 @@ namespace Api.DTO
                 Year = book.Year,
                 Isbn = book.Isbn,
                 Image = book.Image,
-                Available = book.Quantity - book.InReserve,
+                Available = book.Quantity - book.InReserve, 
                 Price = book.Price,
             };
         }
