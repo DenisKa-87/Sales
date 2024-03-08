@@ -97,3 +97,8 @@ C:\Main\smsa\ForReview\Sales\Api\obj\Debug\net6.0\refint\Api.dll
 C:\Main\smsa\ForReview\Sales\Api\obj\Debug\net6.0\Api.pdb
 C:\Main\smsa\ForReview\Sales\Api\obj\Debug\net6.0\Api.genruntimeconfig.cache
 C:\Main\smsa\ForReview\Sales\Api\obj\Debug\net6.0\ref\Api.dll
+C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll

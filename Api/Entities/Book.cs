@@ -1,6 +1,6 @@
-﻿using salesAPI.DTO;
+﻿using Api.DTO;
 
-namespace salesAPI.Entities
+namespace Api.Entities
 {
     public class Book
     {

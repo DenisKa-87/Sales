@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace salesAPI.Entities
+namespace Api.Entities
 {
     public class Order
     {

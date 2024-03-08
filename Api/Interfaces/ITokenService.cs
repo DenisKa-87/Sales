@@ -1,4 +1,4 @@
-﻿using salesAPI.Entities;
+﻿using Api.Entities;
 
 namespace Api.Interfaces
 {

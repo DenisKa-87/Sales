@@ -1,12 +1,12 @@
 ﻿using Api.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using salesAPI.Entities;
+using Api.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace salesAPI.Services
+namespace Api.Services
 {
     public class TokenService : ITokenService
     {
