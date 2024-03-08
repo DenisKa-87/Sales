@@ -2,6 +2,7 @@ using Api.Data;
 using Api.Entities;
 using Api.Interfaces;
 using Api.Services;
+using Api.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -55,7 +56,7 @@ namespace Api
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
                 //options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-
+            builder.Services.AddSignalR();
 
             var app = builder.Build();
 
@@ -72,6 +73,7 @@ namespace Api
 
 
             app.MapControllers();
+            app.MapHub<BookHub>("api/demohub");
 
             app.Run();
         }
