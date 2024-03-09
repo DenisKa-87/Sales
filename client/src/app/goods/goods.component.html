@@ -1,0 +1,29 @@
+
+    <ul class="col-12 p-0 d-flex flex-wrap justify-content-center ">
+        <li class="card col-sm-10 col-md-5 m-3 flex-shrink-1 " *ngFor="let book of books" >
+            <div class="card-header">
+                <h5>{{book.title}}</h5>
+            </div>
+            <div class="card-body">
+                
+                <div class="row p-0">
+                    <img src="{{book.image}}" onerror="this.onerror=null;this.src='./assets/book.jpg'" alt="{{book.title}}" class="col-4">
+                    <div class="col-8">
+                        <h6>Author: {{book.author}}</h6>
+                        <h6>Year: {{book.year}}</h6>
+                        <h6>Price: {{book.price}}</h6>
+                        
+                    </div>
+                </div>
+                
+            </div>
+
+            <div class="card-footer ">
+                 <div class="d-md-block d-lg-flex ">
+                     <h6 class="col-sm-12 col-md-8">Books left: {{book.available}}</h6>
+                     <button id="addToBasketBtn" class="btn btn-sm  btn-success col-sm-12 col-lg-4" 
+                     [disabled]="(this.accountService.currentUser$ | async) === null" (click)="addToBasket(book)">Add to basket</button>
+                 </div>
+            </div>
+        </li>
+    </ul>

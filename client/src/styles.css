@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+.card img{
+    width: 15 vw;
+    aspect-ratio: 1/1;
+}
+.card-header{
+
+    max-height: 8vh;
+    min-height: 6vh;
+}
+
+.card{
+    transition: 0.5s;
+}
+
+.card:hover{
+    transform: scale(1.1);
+}

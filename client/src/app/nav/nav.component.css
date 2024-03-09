@@ -1,0 +1,16 @@
+a:hover{
+    cursor: pointer;
+}
+
+#promo{
+    color: rgb(146, 8, 112);
+}
+
+#logout {
+    background-color: transparent;
+    border-style: none;
+  }
+#logout:hover{
+    color: rgb(146, 8, 112);
+    transform: scale(1.1);
+}

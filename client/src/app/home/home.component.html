@@ -1,0 +1,18 @@
+<div class="mt-auto col-12">
+    <div class="row mt-5 ms-0 me-0 " >
+        <div class="col-6">
+            <h4 class="text-center ">Books for sale: </h4>
+            <div class="itemsContainer text-center mt-3">
+                <app-goods></app-goods>
+            </div>
+        </div>
+        <div class="col-6">
+            <h4 class="text-center ">Your order: </h4>
+            <div class="itemsContainer text-center mt-3">
+                <app-basket></app-basket>
+            </div>
+            <h4 class="text-center text-success ">Total: {{orderSum}}</h4>
+            <button *ngIf="(accountService.currentUser$ | async)" class="button btn btn-success float-end" [disabled]="orderSum < 2000" (click)="placeOrder()">Place order</button>
+        </div>
+    </div>
+</div>

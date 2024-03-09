@@ -1,0 +1,18 @@
+<nav class="navbar navbar-expand-md navbar-dark  bg-dark" style="height: 7vh;">
+    <div class="container">
+        <div class="ms-auto text-light d-flex align-items-center justify-content-center " *ngIf="accountService.currentUser$ | async as user" >
+            <h4 class="d-inline ">Your promo:  </h4>
+            <h3 class="d-inline ms-3" id="promo">{{user.username}}</h3>
+            <button id="logout" class="btn btn-sm btn-primary ms-3" (click)="logout()">Log out</button>
+
+        </div>
+
+        <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" class="d-flex ms-auto  p-2" (ngSubmit)="login()" autocomplete="off">
+            <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text" placeholder="Enter with your promocode">
+            <button class="btn btn-success" type="submit">Login</button>
+            <a class="text-white text-decoration-none text-sm-center ms-3" (click)="register()">Get a promocode</a>
+        </form>
+    </div>
+    
+</nav>
+  

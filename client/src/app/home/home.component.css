@@ -1,0 +1,11 @@
+.itemsContainer{
+    height: 65vh;
+    max-height: 65vh;
+    overflow-y: scroll;
+    border-radius: 10px;
+    background-color: whitesmoke;
+}
+
+.itemsContainer::-webkit-scrollbar {
+    display: none;
+  }    
