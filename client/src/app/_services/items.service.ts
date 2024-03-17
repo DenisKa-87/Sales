@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, fromEvent } from 'rxjs';
 import { Book } from '../models/Book';
 import { environment } from 'src/environments/environment.development';
-import { SignalrService } from './signalr.service';
+import { BooksSignalrService } from './signalr.service';
 
 
 @Injectable({

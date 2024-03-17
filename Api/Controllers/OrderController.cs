@@ -1,6 +1,7 @@
 ﻿using Api.DTO;
 using Api.Entities;
 using Api.Interfaces;
+using Api.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +14,19 @@ namespace Api.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHubContext<Hub> _hubContext;
+        private readonly IHubContext<BookHub> _bookhubContext;
+        private readonly IHubContext<UserNotificationHub> _userNotificationHub;
+        private readonly IConnectedUsers _connectedUsers;
 
-        public OrderController(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IHubContext<Hub> hubContext
+        public OrderController(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IHubContext<BookHub> bookhubContext,
+        IHubContext<UserNotificationHub> userNotificationHub, IConnectedUsers connectedUsers
             )
         {
             _userManager = userManager;
             _unitOfWork = unitOfWork;
-            _hubContext = hubContext;
+            _bookhubContext = bookhubContext;
+            _userNotificationHub = userNotificationHub;
+            _connectedUsers = connectedUsers;
         }
 
         
@@ -70,6 +76,7 @@ namespace Api.Controllers
             return BadRequest();
         }
 
+        [Authorize]
         [HttpDelete("{isbn}")]
         public async Task<ActionResult> DeleteBookFromOrder(long isbn)
         {
@@ -109,6 +116,7 @@ namespace Api.Controllers
             
         }
 
+        [Authorize]
         [HttpPost("placeorder")]
         public async Task<ActionResult> PlaceCurrentOrder()
         {
@@ -123,6 +131,38 @@ namespace Api.Controllers
             return BadRequest("Failed to place current order.");
 
         }
+
+
+        [HttpPost("sendurl")]
+        public async Task<ActionResult> SendUrlToUser([FromQuery] string username, [FromQuery] string url)
+        {
+            var user = await _userManager.Users.Include(x => x.Order).FirstOrDefaultAsync(x => x.NormalizedUserName == username.ToUpper());
+            var order = user.Order;
+            if (user == null | order.Processed | !order.Placed)
+                return BadRequest("There is no such user or user has not placed the order");
+            order.Processed = true;
+            order.OrderUrl = url;
+            _unitOfWork.OrderRepository.UpdateOrder(order);
+            if (!await _unitOfWork.Complete())
+            {
+                return BadRequest("Unable to update the order");
+            }
+            var connectionList = new List<string>();
+            if (_connectedUsers.UserConnections.ContainsKey(user.UserName))
+            {
+                connectionList = _connectedUsers.UserConnections[user.NormalizedUserName];
+            }
+            if (connectionList.Count != 0)
+            {
+                foreach (var connection in connectionList)
+                {
+                    await _userNotificationHub.Clients.Client(connection).SendAsync("updateOrderUrl", url);
+                }
+            }
+            return Ok();
+
+        }
+
 
         private async Task<AppUser> GetCurrentUser()
         {

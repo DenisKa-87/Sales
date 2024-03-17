@@ -1,0 +1,92 @@
+[
+  {
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "year": 1866,
+    "price": 699,
+    "isbn": "9780140449136",
+    "image": "https://upload.wikimedia.org/wikipedia/en/4/4b/Crimeandpunishmentcover.png",
+    "quantity": 50
+  },
+  {
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "year": 1869,
+    "price": 899,
+    "isbn": "9781400079988",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Tolstoy_-_War_and_Peace_-_first_edition%2C_1869.jpg/330px-Tolstoy_-_War_and_Peace_-_first_edition%2C_1869.jpg",
+    "quantity": 7
+  },
+  {
+    "title": "Anna Karenina",
+    "author": "Leo Tolstoy",
+    "year": 1878,
+    "price": 799,
+    "isbn": "9780192833705",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/AnnaKareninaTitle.jpg/330px-AnnaKareninaTitle.jpg",
+    "quantity": 3
+  },
+  {
+    "title": "The Master and Margarita",
+    "author": "Mikhail Bulgakov",
+    "year": 1967,
+    "price": 599,
+    "isbn": "9780141180144",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/MasterandMargaritaFirstEdition.jpg/330px-MasterandMargaritaFirstEdition.jpg",
+    "quantity": 80
+  },
+  {
+    "title": "Fathers and Sons",
+    "author": "Ivan Turgenev",
+    "year": 1862,
+    "price": 499,
+    "isbn": "9780486426888",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Fathers_and_Sons_cover_-_retouched.jpg/375px-Fathers_and_Sons_cover_-_retouched.jpg",
+    "quantity": 60
+  },
+  {
+    "title": "The Brothers Karamazov",
+    "author": "Fyodor Dostoevsky",
+    "year": 1880,
+    "price": 799,
+    "isbn": "9780679601815",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Dostoevsky-Brothers_Karamazov.jpg/330px-Dostoevsky-Brothers_Karamazov.jpg",
+    "quantity": 40
+  },
+  {
+    "title": "Doctor Zhivago",
+    "author": "Boris Pasternak",
+    "year": 1957,
+    "price": 699,
+    "isbn": "9780099448426",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Doktor_feltrinelli.jpg/330px-Doktor_feltrinelli.jpg",
+    "quantity": 9
+  },
+  {
+    "title": "The Idiot",
+    "author": "Fyodor Dostoevsky",
+    "year": 1869,
+    "price": 599,
+    "isbn": "9780679724528",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Fyodor_Dostoyevsky_manuscript_and_drawing_06.jpg/330px-Fyodor_Dostoyevsky_manuscript_and_drawing_06.jpg",
+    "quantity": 6
+  },
+  {
+    "title": "Dead Souls",
+    "author": "Nikolai Gogol",
+    "year": 1842,
+    "price": 399,
+    "isbn": "9780140448078",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Dead_Souls_%28novel%29_Nikolai_Gogol_1842_title_page.jpg/330px-Dead_Souls_%28novel%29_Nikolai_Gogol_1842_title_page.jpg",
+    "quantity": 7
+  },
+  {
+    "title": "Eugene Onegin",
+    "author": "Alexander Pushkin",
+    "year": 1833,
+    "price": 899,
+    "isbn": "9780691043462",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/1/10/Eugene_Onegin_Vol1_1837.jpg",
+    "quantity": 80
+  }
+]

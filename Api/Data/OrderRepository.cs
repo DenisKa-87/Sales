@@ -32,10 +32,10 @@ namespace Api.Data
             return await _context.Orders.ToListAsync();
         }
 
-        public async Task<IEnumerable<Order>> GetUserOrders(AppUser appUser)
+        public async Task<Order> GetUsersOrder(AppUser appUser)
         {
-            return await _context.Orders.Include(x => x.Books).Where(order =>  
-            order.User.NormalizedUserName == appUser.NormalizedUserName).ToListAsync();
+            return await _context.Orders.Include(x => x.Books).FirstOrDefaultAsync(order =>  
+            order.UserId == appUser.Id);
 
         }
 
@@ -53,8 +53,7 @@ namespace Api.Data
 
         public async Task<Order> GetCurrentOrder(AppUser user)
         {
-            var orders = await GetUserOrders(user);
-            var order = orders.FirstOrDefault(order => !order.Placed);
+            var order = await GetUsersOrder(user);
             if(order == null)
             {
                 order = Order.Create(user);

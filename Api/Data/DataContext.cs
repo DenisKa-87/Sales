@@ -20,6 +20,7 @@ namespace Api.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<AppUser>().HasOne(x => x.Order);
 
             builder.Entity<Order>().HasMany(order => order.Books).WithMany(x => x.Orders);
         }

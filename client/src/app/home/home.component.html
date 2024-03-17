@@ -11,8 +11,13 @@
             <div class="itemsContainer text-center mt-3">
                 <app-basket></app-basket>
             </div>
-            <h4 class="text-center text-success ">Total: {{orderSum}}</h4>
-            <button *ngIf="(accountService.currentUser$ | async)" class="button btn btn-success float-end" [disabled]="orderSum < 2000" (click)="placeOrder()">Place order</button>
+            <h4 class="text-center text-success " [hidden]="orderPlaced">Total: {{orderSum}}</h4>
+            <h4 class="text-center text-success " [hidden]="(!orderPlaced || url !== null)">Your order has been placed. Total cost is: {{orderSum}}. Please wait untill we process it.</h4>
+            <h4 class="text-center text-success " [hidden]="url == null">
+                Please follow <a href = {{url}}> this link </a> to finish your transaction: . Total cost is: {{orderSum}}.
+            </h4>
+
+            <button *ngIf="(accountService.currentUser$ | async)" class="button btn btn-success float-end" [disabled]="orderSum < 2000 || orderPlaced" (click)="placeOrder()">Place order</button>
         </div>
     </div>
 </div>

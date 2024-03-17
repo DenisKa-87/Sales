@@ -5,6 +5,7 @@ import { User } from '../models/User';
 import { environment } from 'src/environments/environment.development';
 import { ItemsService } from './items.service';
 import { Router } from '@angular/router';
+import { UserNotificationService } from './user-notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,  private userNotificationService: UserNotificationService
     //private itemsService: ItemsService, 
     ) { }
 
@@ -31,6 +32,7 @@ export class AccountService {
         const user = response;
         if(user){
           this.setCurrentUser(user);
+          this.userNotificationService.initiateSignalRConnection();
         }
         return user;
       })
@@ -43,6 +45,7 @@ export class AccountService {
         const user = response;
         if(user){
           this.setCurrentUser(user);
+          this.userNotificationService.initiateSignalRConnection();
         }
         return user;
       })
@@ -52,5 +55,6 @@ export class AccountService {
   logout(){
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+    this.userNotificationService.stopConnection();
   }
 }

@@ -4,10 +4,11 @@ import { BehaviorSubject, take } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/Order';
-import { SignalrService } from './signalr.service';
+import { BooksSignalrService } from './signalr.service';
 import { HttpResponse } from '@microsoft/signalr';
 import { ItemsService } from './items.service';
-
+import { OrderService } from './order.service';
+import { UserNotificationService } from './user-notification.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,19 +17,25 @@ export class BasketService {
   books$ = new BehaviorSubject<Book[]>([]);
   books: Book[] = [];
   orderSum$ = new BehaviorSubject<number>(0);
+  orderPlaced$ = new BehaviorSubject<boolean>(false);
+
   
-  constructor(private http: HttpClient, private signalRService: SignalrService) { 
+  constructor(private http: HttpClient, private signalRService: BooksSignalrService, private orederService: OrderService) 
+  { 
     this.books$.subscribe(books => this.books = books)
+
   }
 
   getCurrentOrder(){
-    return this.http.get<Order>(environment.apiUrl + 'order/current')
-    .subscribe(resp => {
-      if(resp.books !== null)
-        this.books$.next(resp.books);
+    return this.http.get<Order>(environment.apiUrl + 'order/current', {observe: 'response'})
+    .subscribe(response => {
+      if(response.body.books !== null)
+        this.books$.next(response.body.books);
       var sum = 0;
-      resp.books.forEach(book => sum += book.price)
+      response.body.books.forEach(book => sum += book.price)
       this.orderSum$.next(sum)
+      this.orderPlaced$.next(response.body.placed)
+      this.orederService.orderUrl$.next(response.body.orderUrl.length == 0 ? null : response.body.orderUrl)
     });
   }
 
@@ -67,8 +74,11 @@ export class BasketService {
     this.orderSum$.pipe(take(1)).subscribe(x => currentOrderSum = x)
     if(currentOrderSum < 2000)
       return;
-    return this.http.post(environment.apiUrl+"order/placeorder", {}).subscribe(response =>{
-      console.log(response)
+    return this.http.post(environment.apiUrl+"order/placeorder", {}, {observe: 'response'})
+    .subscribe((response) => 
+    {
+      this.orderPlaced$.next(response.status === 200); 
+      console.log("resp = " + response.status)
     })
-  }
+    } 
 }

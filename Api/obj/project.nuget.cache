@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "eDXGae72O1KL7bIx9G7AlL9dfKivNMbnSnNYOKOSJbJtUllPr3J7piRFmFw5g87DfxI9wt4iZoXoL3gXkZQLWA==",
+  "dgSpecHash": "w6F6gtCDlGm+Qum9qEK56QCuPrGN0M+Mh9V/k7/5C6P9dqDgGAwO8gcXZJ8ajr8HEajoJ2nM1+3iuNTvl2+WLQ==",
   "success": true,
   "projectFilePath": "C:\\Main\\smsa\\ForReview\\Sales\\Api\\Api.csproj",
   "expectedPackageFiles": [
@@ -65,6 +65,7 @@
     "C:\\Users\\26520\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\26520\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\26520\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\26520\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\26520\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.2\\sqlitepclraw.bundle_e_sqlite3.2.1.2.nupkg.sha512",
     "C:\\Users\\26520\\.nuget\\packages\\sqlitepclraw.core\\2.1.2\\sqlitepclraw.core.2.1.2.nupkg.sha512",
     "C:\\Users\\26520\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.2\\sqlitepclraw.lib.e_sqlite3.2.1.2.nupkg.sha512",

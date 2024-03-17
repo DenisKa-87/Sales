@@ -8,6 +8,9 @@ namespace Api.DTO
         public List<BookDto> Books { get; set; }
         public string UserName { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool Placed { get; set; }
+        public bool Processed { get; set; }
+        public string OrderUrl { get; set; } = null;
 
         public static OrderDto Create(Order order)
         {
@@ -16,7 +19,11 @@ namespace Api.DTO
                 Id = order.Id,
                 UserName = order.User.UserName,
                 CreatedAt = order.CreatedAt,
-                Books = new List<BookDto>()
+                Books = new List<BookDto>(),
+                Placed = order.Placed,
+                Processed = order.Processed,
+                OrderUrl = order.OrderUrl
+
             };
             if (order.Books != null)
                 foreach (var book in order.Books)

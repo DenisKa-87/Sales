@@ -32,7 +32,7 @@ namespace Api.Controllers
             {
                 username = GenerateName();
             }
-            var user = new AppUser() { UserName = username,  };
+            var user = new AppUser() { UserName = username };
             var result =await  _userManager.CreateAsync(user, username);
             if (!result.Succeeded)
             {

@@ -11,7 +11,7 @@ namespace Api.Interfaces
         void AddOrder(Order order);
         void DeleteOrder(Order order);
         void UpdateOrder(Order order);
-        Task<IEnumerable<Order>> GetUserOrders(AppUser appUser);
+        Task<Order> GetUsersOrder(AppUser appUser);
         Task<Order> GetCurrentOrder(AppUser user);
     }
 }

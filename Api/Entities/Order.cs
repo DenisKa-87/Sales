@@ -1,10 +1,13 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace Api.Entities
 {
     public class Order
     {
         public int Id { get; set; }
+        public string UserId { get; set; }
+        
         public  AppUser User { get; set; }
         public List<Book> Books { get; set; }  
         public DateTime CreatedAt { get; set; } = DateTime.Now;
@@ -14,6 +17,7 @@ namespace Api.Entities
         public bool Placed { get; set; }
         // shows if this order data has been sent to the main site;
         public bool Processed { get; set; }
+        public string OrderUrl { get; set; } = "";
 
 
         public static Order Create(AppUser appUser)
@@ -21,8 +25,11 @@ namespace Api.Entities
             Order order = new Order
             {
                 User = appUser,
+                UserId = appUser.Id,
                 Books = new List<Book>()
             };
+
+
             return order;
         }
         public static Order Create(AppUser user, List<Book> books)

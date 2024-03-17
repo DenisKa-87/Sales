@@ -1,38 +1,34 @@
 import { Injectable, Signal } from '@angular/core';
-import * as signalR from '@microsoft/signalr';
-import { HubConnection } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment.development';
 import { ItemsService } from './items.service';
 import { Book } from '../models/Book';
+import { OrderService } from './order.service';
+import { HubConnection } from '@microsoft/signalr';
+import * as signalR from '@microsoft/signalr';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SignalrService {
+export class BooksSignalrService {
 
 
-  hubUrl = environment.apiUrl + "demohub";
+  hubUrl = environment.apiUrl + "bookhub";
   connection: HubConnection;
   bookToUpdate: Book;
-  constructor(
-    private itemsService: ItemsService
-    ) {
-    
+
+  constructor( private itemsService: ItemsService, private orderService: OrderService) { 
    }
 
   public async initiateSignalRConnection() :Promise<void> {
     try{
       this.connection = new signalR.HubConnectionBuilder().withUrl(this.hubUrl).withAutomaticReconnect().build();
+      
       await this.connection.start();
-      console.log(`SignalR connection success! connectionId: ${this.connection.connectionId}`);
+      console.log(`SignalR connection to bookshub established! connectionId: ${this.connection.connectionId}`);
     }
     catch (error) {
-      console.log(`SignalR connection error: ${error}`);
+      console.log(`SignalR connection to bookhub failed! Error: ${error}`);
     }
-
-    this.connection.on('Hello', (message) => {
-      console.log(message)
-    })
 
     this.connection.on('updateBook', (book) => {
       this.bookToUpdate = book;
@@ -41,9 +37,8 @@ export class SignalrService {
         this.itemsService.books[index] = book;
       else
         this.itemsService.books.push(book)
-      this.itemsService.books$.next(this.itemsService.books);
-    })
-
+        this.itemsService.books$.next(this.itemsService.books);
+    });
   }
 
 
@@ -56,3 +51,5 @@ export class SignalrService {
   //  }
  
 }
+
+

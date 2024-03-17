@@ -1,13 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 .card img{
-    width: 15 vw;
+    width: 10vw;
+    min-width: 10vw;
     aspect-ratio: 1/1;
 }
 .card-header{
-
     max-height: 8vh;
-    min-height: 6vh;
+    min-height: 8vh;
+    word-wrap: break-word;
 }
+
 
 .card{
     transition: 0.5s;

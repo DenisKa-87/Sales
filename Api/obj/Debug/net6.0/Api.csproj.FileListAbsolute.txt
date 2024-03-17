@@ -102,3 +102,5 @@ C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptogra
 C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
 C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\books.json
+C:\Main\smsa\ForReview\Sales\Api\bin\Debug\net6.0\Newtonsoft.Json.dll
