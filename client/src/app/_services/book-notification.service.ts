@@ -1,4 +1,4 @@
-import { Injectable, Signal } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { ItemsService } from './items.service';
 import { Book } from '../models/Book';
@@ -11,18 +11,17 @@ import * as signalR from '@microsoft/signalr';
 })
 export class BooksSignalrService {
 
-
   hubUrl = environment.apiUrl + "bookhub";
   connection: HubConnection;
   bookToUpdate: Book;
 
-  constructor( private itemsService: ItemsService, private orderService: OrderService) { 
-   }
+  constructor(private itemsService: ItemsService, private orderService: OrderService) {
+  }
 
-  public async initiateSignalRConnection() :Promise<void> {
-    try{
+  public async initiateSignalRConnection(): Promise<void> {
+    try {
       this.connection = new signalR.HubConnectionBuilder().withUrl(this.hubUrl).withAutomaticReconnect().build();
-      
+
       await this.connection.start();
       console.log(`SignalR connection to bookshub established! connectionId: ${this.connection.connectionId}`);
     }
@@ -33,23 +32,15 @@ export class BooksSignalrService {
     this.connection.on('updateBook', (book) => {
       this.bookToUpdate = book;
       let index = this.itemsService.books.findIndex(x => x.isbn === book.isbn)
-      if(index >= 0)
+      if (index >= 0)
         this.itemsService.books[index] = book;
       else
         this.itemsService.books.push(book)
-        this.itemsService.books$.next(this.itemsService.books);
+      this.itemsService.books$.next(this.itemsService.books);
     });
   }
 
-
-   public Notify(book: Book){
-     this.connection.invoke("NotifyBookQuantityChange", book.isbn)
-   }
-
-  //  public cancelBookReservation(book: Book){
-  //   this.connection.invoke("CancelBookReservation", book.isbn);
-  //  }
- 
+  public Notify(book: Book) {
+    this.connection.invoke("NotifyBookQuantityChange", book.isbn)
+  }
 }
-
-

@@ -6,10 +6,10 @@ namespace Api.Entities
     public class Order
     {
         public int Id { get; set; }
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         
-        public  AppUser User { get; set; }
-        public List<Book> Books { get; set; }  
+        public  AppUser? User { get; set; }
+        public List<Book>? Books { get; set; }  
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime PlacedAt { get; set; } = DateTime.Now;
 
@@ -71,7 +71,5 @@ namespace Api.Entities
             }
             return false;
         }
-
-
     }
 }

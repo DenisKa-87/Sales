@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, map } from 'rxjs';
 import { User } from '../models/User';
 import { environment } from 'src/environments/environment.development';
-import { ItemsService } from './items.service';
-import { Router } from '@angular/router';
 import { UserNotificationService } from './user-notification.service';
 
 @Injectable({
@@ -17,9 +15,7 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
   baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient,  private userNotificationService: UserNotificationService
-    //private itemsService: ItemsService, 
-    ) { }
+  constructor(private http: HttpClient,  private userNotificationService: UserNotificationService) { }
 
   setCurrentUser(user: User){
     localStorage.setItem('user', JSON.stringify(user));
@@ -39,6 +35,7 @@ export class AccountService {
     )
   }
 
+  
   register(){
     return this.http.post(this.baseUrl + 'account/register', {}).pipe(
       map((response: User) => {

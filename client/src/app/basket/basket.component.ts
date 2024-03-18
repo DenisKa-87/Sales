@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Book } from '../models/Book';
 import { BasketService } from '../_services/basket.service';
 import { AccountService } from '../_services/account.service';
-import { BooksSignalrService } from '../_services/signalr.service';
+import { BooksSignalrService } from '../_services/book-notification.service';
 import { BehaviorSubject } from 'rxjs';
 import { UserNotificationService } from '../_services/user-notification.service';
 

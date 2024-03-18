@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from '../models/Book';
 import { ItemsService } from '../_services/items.service';
 import { BasketService } from '../_services/basket.service';
-import { BooksSignalrService } from '../_services/signalr.service';
+import { BooksSignalrService } from '../_services/book-notification.service';
 import { AccountService } from '../_services/account.service';
 import { UserNotificationService } from '../_services/user-notification.service';
 

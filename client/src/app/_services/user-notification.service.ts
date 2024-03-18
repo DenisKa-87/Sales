@@ -1,4 +1,4 @@
-import { ComponentFactoryResolver, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.development';
 import { OrderService } from './order.service';
 import * as signalR from '@microsoft/signalr';
@@ -42,7 +42,7 @@ export class UserNotificationService {
     this.connection.on('updateOrderUrl', (url) => {
       console.log("url from signalr started")
       this.orderService.orderUrl$.next(url);
-    })
+    });
   }
 
   public async stopConnection(): Promise<void>{

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { BasketService } from '../_services/basket.service';
 import { ItemsService } from '../_services/items.service';
 import { Book } from '../models/Book';
-import { BooksSignalrService } from '../_services/signalr.service';
+import { BooksSignalrService } from '../_services/book-notification.service';
 import { OrderService } from '../_services/order.service';
 import { UserNotificationService } from '../_services/user-notification.service';
 

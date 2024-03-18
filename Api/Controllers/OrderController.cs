@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
+using System.Security.Policy;
 
 namespace Api.Controllers
 {
@@ -78,7 +80,7 @@ namespace Api.Controllers
 
         [Authorize]
         [HttpDelete("{isbn}")]
-        public async Task<ActionResult> DeleteBookFromOrder(long isbn)
+        public async Task<IActionResult> DeleteBookFromOrder(long isbn)
         {
             var book = await _unitOfWork.BookRepository.GetBookByIsbn(isbn);
             if (book == null)
@@ -118,7 +120,7 @@ namespace Api.Controllers
 
         [Authorize]
         [HttpPost("placeorder")]
-        public async Task<ActionResult> PlaceCurrentOrder()
+        public async Task<IActionResult> PlaceCurrentOrder()
         {
             var user = await GetCurrentUser();
             if(await _unitOfWork.OrderRepository.PlaceCurrentOrder(user))
@@ -134,9 +136,9 @@ namespace Api.Controllers
 
 
         [HttpPost("sendurl")]
-        public async Task<ActionResult> SendUrlToUser([FromQuery] string username, [FromQuery] string url)
+        public async Task<IActionResult> SendUrlToUser([FromQuery] string username, [FromQuery] string url)
         {
-            var user = await _userManager.Users.Include(x => x.Order).FirstOrDefaultAsync(x => x.NormalizedUserName == username.ToUpper());
+            var user = await GetUserByName(username);
             var order = user.Order;
             if (user == null | order.Processed | !order.Placed)
                 return BadRequest("There is no such user or user has not placed the order");
@@ -147,11 +149,8 @@ namespace Api.Controllers
             {
                 return BadRequest("Unable to update the order");
             }
-            var connectionList = new List<string>();
-            if (_connectedUsers.UserConnections.ContainsKey(user.UserName))
-            {
-                connectionList = _connectedUsers.UserConnections[user.NormalizedUserName];
-            }
+            var connectionList = GetUsersConnections(user.NormalizedUserName);
+            
             if (connectionList.Count != 0)
             {
                 foreach (var connection in connectionList)
@@ -160,17 +159,55 @@ namespace Api.Controllers
                 }
             }
             return Ok();
+        }
+
+        [HttpDelete ("deleteorder")]
+        public async Task<IActionResult> DeleteOrderByCompetion(string username)
+        {
+            var user = await GetUserByName(username);
+            var order = user.Order;
+            if (user == null || order == null || !order.Processed || !order.Placed) 
+                return BadRequest("Sorry, there is no such user.");
+
+            _unitOfWork.OrderRepository.DeleteOrder(order);
+            if (!await _unitOfWork.Complete())
+                return BadRequest("Unable to delete the order.");
+
+            var connections = GetUsersConnections(user.NormalizedUserName);
+            if (connections.Count != 0)
+            {
+                foreach (var connection in connections)
+                {
+                    await _userNotificationHub.Clients.Client(connection).SendAsync("updateOrder");
+                }
+            }
+            return Ok();
 
         }
 
+        private async Task<AppUser> GetUserByName(string username)
+        {
+            return await _userManager.Users.Include(x => x.Order)?.FirstOrDefaultAsync(x => x.NormalizedUserName == username.ToUpper());
+        }
+
+        private List<string> GetUsersConnections(string username)
+        {
+            var connections = new List<string>();
+            if (_connectedUsers.UserConnections.ContainsKey(username))
+            {
+                connections = _connectedUsers.UserConnections[username];
+            }
+            return connections;
+
+        } 
 
         private async Task<AppUser> GetCurrentUser()
         {
             var username = User.Identity.Name;
             if (username == null)
                 return null;
-            return await _userManager.Users.Include(x => x.Order)
-                .FirstOrDefaultAsync(x => x.UserName == username);
+            var users = _userManager.Users.Include(x => x.Order);
+            return await users.FirstOrDefaultAsync(x => x.UserName == username);
         }
     }
 }

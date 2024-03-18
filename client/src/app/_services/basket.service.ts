@@ -1,17 +1,15 @@
-import { Injectable, OnInit, Output } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { Book } from '../models/Book';
 import { BehaviorSubject, take } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../models/Order';
-import { BooksSignalrService } from './signalr.service';
-import { HttpResponse } from '@microsoft/signalr';
-import { ItemsService } from './items.service';
+import { BooksSignalrService } from './book-notification.service';
 import { OrderService } from './order.service';
-import { UserNotificationService } from './user-notification.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class BasketService {
 
   books$ = new BehaviorSubject<Book[]>([]);

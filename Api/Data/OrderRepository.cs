@@ -23,6 +23,8 @@ namespace Api.Data
 
         public void DeleteOrder(Order order)
         {
+            order.User = null;
+            order.UserId = null;
             _context.Orders.Remove(order);
         }
 
