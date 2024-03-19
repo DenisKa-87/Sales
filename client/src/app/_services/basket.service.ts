@@ -45,7 +45,7 @@ export class BasketService {
     return this.http.post<Order>(environment.apiUrl + "order/addBook/" +book.isbn, {}).subscribe( resp => {
       if(resp.books !== null){
         this.books$.next(resp.books);
-        this.signalRService.Notify(book);
+        //this.signalRService.Notify(book);
         var currentOrderSum = 0;
         this.orderSum$.pipe(take(1)).subscribe(x => currentOrderSum = x)
         this.orderSum$.next(currentOrderSum + book.price);
@@ -58,7 +58,7 @@ export class BasketService {
       if(resp.status === 200){
         this.books = this.books.filter(bookForDel => book.isbn !== bookForDel.isbn);
         this.books$.next(this.books);
-        this.signalRService.Notify(book);
+        //this.signalRService.Notify(book);
         var currentOrderSum = 0;
         this.orderSum$.pipe(take(1)).subscribe(x => currentOrderSum = x)
 

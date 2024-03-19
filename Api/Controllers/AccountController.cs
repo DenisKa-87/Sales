@@ -46,9 +46,9 @@ namespace Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> LogIn(LoginDto login)
+        public async Task<ActionResult<UserDto>> LogIn(string login)
         {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == login.Username.ToUpper());
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.UserName == login.ToUpper());
             if(user == null)
             {
                 return Unauthorized("Invalid promocode");

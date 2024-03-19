@@ -2,16 +2,21 @@
 using Api.Entities;
 using Api.Interfaces;
 using SQLitePCL;
+using Microsoft.AspNetCore.SignalR;
+using Api.SignalR;
+using Api.DTO;
 
 namespace Api.Data
 {
     public class BookRepository : IBookRepository
     {
         private readonly DataContext _context;
+        private readonly IHubContext<BookHub> _bookHub;
 
-        public BookRepository(DataContext context)
+        public BookRepository(DataContext context, IHubContext<BookHub> bookHub)
         {
             _context = context;
+            _bookHub = bookHub;
         }
 
         public async Task<bool> AddBook(Book book)
@@ -56,7 +61,9 @@ namespace Api.Data
             };
             _context.Books.Attach(book);
             _context.Entry(book).Property(x => x.InReserve).IsModified = true;
-            _context.SaveChanges();
+            if (_context.SaveChanges() > 0)
+                await _bookHub.Clients.All.SendAsync("updateBook", BookDto.Create(book));
+
             return book;
         }
     }

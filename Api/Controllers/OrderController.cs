@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using SQLitePCL;
 using System.Security.Policy;
 
@@ -105,6 +106,8 @@ namespace Api.Controllers
         [HttpGet("/getorders/{quantity}")]
         public async Task<ActionResult<IEnumerable<OrdersResponseDto>>> GetOrders(int quantity)
         {
+            if (quantity <= 0)
+                return BadRequest();
             var orders = await _unitOfWork.OrderRepository.GetActiveOrders(quantity);
             if (orders == null)
                 return Ok(null);
@@ -161,33 +164,67 @@ namespace Api.Controllers
             return Ok();
         }
 
-        [HttpDelete ("deleteorder")]
-        public async Task<IActionResult> DeleteOrderByCompetion(string username)
+        [HttpPost("cancelorder")]
+        public async Task<IActionResult> CancelOrder(string username)
         {
             var user = await GetUserByName(username);
+            if(user == null)
+                return BadRequest("There is no such user");
             var order = user.Order;
-            if (user == null || order == null || !order.Processed || !order.Placed) 
+            if (order == null || !order.Placed || order.Processed)
                 return BadRequest("Sorry, there is no such user.");
-
-            _unitOfWork.OrderRepository.DeleteOrder(order);
-            if (!await _unitOfWork.Complete())
-                return BadRequest("Unable to delete the order.");
-
-            var connections = GetUsersConnections(user.NormalizedUserName);
-            if (connections.Count != 0)
+            bool success = false;
+            foreach (var book in order.Books)
             {
-                foreach (var connection in connections)
+                success = await _unitOfWork.BookRepository.ChangeBookQuantityInReserve(book.Isbn, "decrease") != null;
+            }
+            if (success)
+            {
+                _unitOfWork.OrderRepository.ClearOrderFromBooks(order);
+                if(await _unitOfWork.Complete())
                 {
-                    await _userNotificationHub.Clients.Client(connection).SendAsync("updateOrder");
+                    await SendNotification(user.UserName, "updateOrder");
+                    await SendNotification(user.UserName, "updateOrderUrl");
                 }
             }
             return Ok();
 
         }
 
+        [HttpDelete ("deleteorder")]
+        public async Task<IActionResult> DeleteCompletedOrder(string username)
+        {
+            var user = await GetUserByName(username);
+            if (user == null)
+                return BadRequest("There is no such user");
+            var order = user.Order;
+            if (order == null || !order.Processed || !order.Placed) 
+                return BadRequest("Sorry, there is no such user.");
+
+            _unitOfWork.OrderRepository.DeleteOrder(order);
+            if (!await _unitOfWork.Complete())
+                return BadRequest("Unable to delete the order.");
+
+            await SendNotification(user.UserName, "updateOrder");
+            return Ok();
+        }
+
+        private async Task SendNotification(string username, string notification)
+        {
+            var connections = GetUsersConnections(username.ToUpper());
+            if (connections.Count != 0)
+            {
+                foreach (var connection in connections)
+                {
+                    await _userNotificationHub.Clients.Client(connection).SendAsync(notification);
+                }
+            }
+        }
         private async Task<AppUser> GetUserByName(string username)
         {
-            return await _userManager.Users.Include(x => x.Order)?.FirstOrDefaultAsync(x => x.NormalizedUserName == username.ToUpper());
+            var query = _userManager.Users.Include(x => x.Order).ThenInclude(x => x.Books); ;
+
+            return await query.FirstOrDefaultAsync(x => x.NormalizedUserName == username.ToUpper());
         }
 
         private List<string> GetUsersConnections(string username)

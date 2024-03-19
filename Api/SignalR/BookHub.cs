@@ -15,7 +15,7 @@ namespace Api.SignalR
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public BookHub(IUnitOfWork unitOfWork, IConnectedUsers connectedUsers, UserManager<AppUser> userManager)
+        public BookHub(IUnitOfWork unitOfWork, UserManager<AppUser> userManager)
         {
             _unitOfWork = unitOfWork;
         }

@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Api.Entities;
 using Api.Interfaces;
+using Microsoft.AspNetCore.SignalR;
+using Api.SignalR;
 
 namespace Api.Data
 {
@@ -26,6 +28,15 @@ namespace Api.Data
             order.User = null;
             order.UserId = null;
             _context.Orders.Remove(order);
+        }
+
+        public  async void ClearOrderFromBooks(Order order)
+        {
+            order.Books = new List<Book>();
+            order.Placed = false;
+            order.OrderUrl = "";
+            order.Processed = false;
+           
         }
 
 
